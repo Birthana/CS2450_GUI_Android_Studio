@@ -9,10 +9,11 @@ public class Tile {
     public int y;
     public Button button;
 
-    public Tile(Button button, int x,int y) {
+    public Tile(Button button, int x, int y) {
+        this.button = button;
         this.x = x;
-        this.y=y;
-        this.button=button;
+        this.y = y;
+
     }
 
 }
