@@ -16,7 +16,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/activity2"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"/>
 
@@ -58,14 +57,14 @@
 
     <Button
         android:id="@+id/TryAgain"
-        android:layout_width="wrap_content"
+        android:layout_width="116dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="323dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginEnd="-1dp"
+        android:layout_marginRight="-1dp"
+        android:layout_marginBottom="200dp"
         android:text="@string/tryagain" />
 
     <Button
@@ -75,9 +74,22 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="3dp"
-        android:layout_marginRight="3dp"
-        android:layout_marginBottom="105dp"
+        android:layout_marginEnd="-3dp"
+        android:layout_marginRight="-3dp"
+        android:layout_marginBottom="73dp"
         android:text="@string/endgame" />
+
+    <ImageView
+        android:id="@+id/playIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="144dp"
+        android:src="@drawable/ic_play_arrow_black_24dp" />
+
 
 </RelativeLayout>

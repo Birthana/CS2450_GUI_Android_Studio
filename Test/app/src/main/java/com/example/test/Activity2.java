@@ -3,10 +3,13 @@ package com.example.test;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TableRow;
 import android.widget.TextView;
 
@@ -16,6 +19,9 @@ public class Activity2 extends AppCompatActivity {
 
     public Concentration game;
     public ArrayList<View> cards;
+    MediaPlayer mediaPlayer;
+    ImageView playIcon;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +33,28 @@ public class Activity2 extends AppCompatActivity {
 
         TextView test = findViewById(R.id.textview1);
         test.setText("" + number);
+
+        playIcon = findViewById(R.id.playIcon);
+
+        playIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!mediaPlayer.isPlaying()) {
+                    mediaPlayer.start();
+                    playIcon.setImageResource(R.drawable.ic_pause_black_24dp);
+                }
+                    else {
+                        mediaPlayer.pause();
+                        playIcon.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+                }
+            }
+        });
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.song);
+
+
+
+
 
         game = new Concentration(number);
 
@@ -124,4 +152,6 @@ public class Activity2 extends AppCompatActivity {
             }
         }
     }
+
+
 }

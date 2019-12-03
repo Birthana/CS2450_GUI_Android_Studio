@@ -3,6 +3,8 @@ package com.example.test;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,19 +17,21 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_NUMBER = "com.example.test.EXTRA_NUMBER";
     public String selected_size;
+    MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         Button testButton = findViewById(R.id.TestButton);
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(selected_size.matches("")){
+                if (selected_size.matches("")) {
                     Toast.makeText(getApplication().getBaseContext(), "Select a number.", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     Play();
                 }
             }
@@ -51,9 +55,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void Play(){
+
+    private void Play() {
         Intent intent = new Intent(this, Activity2.class);
         intent.putExtra(EXTRA_NUMBER, Integer.parseInt(selected_size));
         startActivity(intent);
     }
+
+
+
 }

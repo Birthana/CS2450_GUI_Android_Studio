@@ -58,7 +58,8 @@ public class Concentration {
             revealed2 = word;
         }
     }
-
+    //Method: CheckMatch
+    //Purpose:
     public void CheckMatch(){
         if(!(revealed1.matches("") || revealed2.matches(""))) {
             if (revealed1.equals(revealed2)) {
@@ -76,7 +77,8 @@ public class Concentration {
         }
         return result;
     }
-
+    //Method: TryAgain
+    //Purpose:
     public void TryAgain(){
         numberOfIncorrectMatches++;
         revealed1 = "";
