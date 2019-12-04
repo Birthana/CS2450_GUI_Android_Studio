@@ -39,6 +39,7 @@ public class Activity2 extends AppCompatActivity implements HighScoreDialog.High
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_2);
+        playSong();
 
         Intent intent = getIntent();
         number = intent.getIntExtra(MainActivity.EXTRA_NUMBER, 0);
@@ -51,18 +52,18 @@ public class Activity2 extends AppCompatActivity implements HighScoreDialog.High
         playIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!mediaPlayer.isPlaying()) {
-                    mediaPlayer.start();
-                    playIcon.setImageResource(R.drawable.ic_pause_black_24dp);
+                if (mediaPlayer.isPlaying()) {
+                    mediaPlayer.pause();
+                    playIcon.setImageResource(R.drawable.ic_play_arrow_black_24dp);
                 }
                     else {
-                        mediaPlayer.pause();
-                        playIcon.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+                        mediaPlayer.start();
+                        playIcon.setImageResource(R.drawable.ic_pause_black_24dp);
                 }
             }
         });
 
-        mediaPlayer = MediaPlayer.create(this, R.raw.song);
+
 
 
 
@@ -138,6 +139,7 @@ public class Activity2 extends AppCompatActivity implements HighScoreDialog.High
         }
         TextView textView = findViewById(R.id.textview1);
         textView.setText("Game End.");
+        stopSong();
 
         score = 0;
         CheckHighScore();
@@ -155,6 +157,7 @@ public class Activity2 extends AppCompatActivity implements HighScoreDialog.High
             TextView textView = findViewById(R.id.textview1);
             textView.setText("Game Won. Score: " + game.getScore());
             score = game.getScore();
+            stopSong();
             CheckHighScore();
         }
 
@@ -223,6 +226,25 @@ public class Activity2 extends AppCompatActivity implements HighScoreDialog.High
                 temp.setBackgroundResource(R.drawable.playing_card);
             }
         }
+    }
+
+    public void playSong() {
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.song);
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                if (mediaPlayer != null) {
+                    mediaPlayer.start();
+                }
+            }
+        });
+        mediaPlayer.start();
+    }
+
+    public void stopSong() {
+        if(mediaPlayer.isPlaying())
+            mediaPlayer.stop();
     }
 
 
