@@ -6,6 +6,7 @@
     <string name="tryagain">Try Again</string>
     <string name="endgame">End Game</string>
     <string name="playbutton">Play</string>
+    <string name="highscorebutton">High Scores</string>
     <string-array name="sizes">
         <item></item>
         <item>4</item>

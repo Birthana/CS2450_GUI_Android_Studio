@@ -13,14 +13,26 @@ import android.widget.ImageView;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class Activity2 extends AppCompatActivity {
+public class Activity2 extends AppCompatActivity implements HighScoreDialog.HighScoreDialogListener {
+    public static final String FILE_NAME = "highscore.txt";
+    // Emulator must be active
+    // This file is stored under data/user/0/com.example.test/files
+    // To look at files in the emulator. View -> Tools Window -> Device File Explorer.
 
+    public int number;
     public Concentration game;
     public ArrayList<View> cards;
     MediaPlayer mediaPlayer;
     ImageView playIcon;
+    public int score;
 
 
     @Override
@@ -29,7 +41,7 @@ public class Activity2 extends AppCompatActivity {
         setContentView(R.layout.activity_2);
 
         Intent intent = getIntent();
-        int number = intent.getIntExtra(MainActivity.EXTRA_NUMBER, 0);
+        number = intent.getIntExtra(MainActivity.EXTRA_NUMBER, 0);
 
         TextView test = findViewById(R.id.textview1);
         test.setText("" + number);
@@ -126,6 +138,9 @@ public class Activity2 extends AppCompatActivity {
         }
         TextView textView = findViewById(R.id.textview1);
         textView.setText("Game End.");
+
+        score = 0;
+        CheckHighScore();
     }
 
     public void CheckIfGameWon(){
@@ -139,6 +154,63 @@ public class Activity2 extends AppCompatActivity {
         if(result){
             TextView textView = findViewById(R.id.textview1);
             textView.setText("Game Won. Score: " + game.getScore());
+            score = game.getScore();
+            CheckHighScore();
+        }
+
+    }
+
+    public void CheckHighScore(){
+        FileInputStream fis = null;
+        try{
+            fis = openFileInput(FILE_NAME);
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader br = new BufferedReader(isr);
+            StringBuffer sb = new StringBuffer();
+            String text;
+
+            int[] scores = new int[5];
+            for(int i = 0; i < scores.length; i++){
+                scores[i] = 0;
+            }
+
+            int index = 0;
+            while((text = br.readLine()) != null){
+                String[] temp = text.split(" ");
+                if(Integer.parseInt(temp[0]) == number){
+                    scores[index] = Integer.parseInt(temp[2]);
+                    index++;
+                }
+                Log.d("test", "found highscore");
+            }
+
+            int count = 0;
+            boolean still_looking = true;
+            while(count < scores.length && still_looking) {
+                if (score > scores[count]) {
+                    still_looking = false;
+                    HighScoreDialog test = new HighScoreDialog();
+                    test.show(getSupportFragmentManager(), "example dialog");
+                }
+                count++;
+                Log.d("test", "still_looking");
+            }
+
+            HighScoreDialog test = new HighScoreDialog();
+            test.show(getSupportFragmentManager(), "example dialog");
+
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }catch(IOException e){
+            e.printStackTrace();
+        }finally {
+            if(fis != null){
+                try{
+                    fis.close();
+                }catch(IOException e){
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -154,4 +226,27 @@ public class Activity2 extends AppCompatActivity {
     }
 
 
+    @Override
+    public void setHighScoreName(String name) {
+        FileOutputStream fos = null;
+        try{
+            fos = openFileOutput(FILE_NAME, MODE_APPEND);
+            if(!name.equals("")) {
+                String text = number + " " + name + " " + score + "\n";
+                fos.write(text.getBytes());
+            }
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }catch(IOException e){
+            e.printStackTrace();
+        }finally{
+            if(fos != null){
+                try{
+                    fos.close();
+                }catch(IOException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }
